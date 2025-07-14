@@ -19,12 +19,13 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="1PF-NG-z6v">
                                 <rect key="frame" x="183.66666666666666" y="440" width="72.999999999999972" height="76"/>
-                                <color key="backgroundColor" systemColor="labelColor"/>
+                                <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1PF-NG-z6v" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="3zT-lf-Blh"/>
                             <constraint firstItem="1PF-NG-z6v" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ceP-fS-axZ"/>
