@@ -53,7 +53,7 @@ extension ImagesListViewController: UITableViewDataSource  {
         return imageListCell
     }
 }
-private enum Constants {
+private enum ButtonConstants {
     static let likeActiveImageName = "likeButtonOn"
     static let likeInactiveImageName = "likeButtonOff"
 }
@@ -70,7 +70,7 @@ extension ImagesListViewController {
         let currentDate = Date()
         cell.dateLabel.text = dateFormatter.string(from: currentDate)
         
-        let likeImage = indexPath.row % 2 == 0 ? UIImage(named: Constants.likeActiveImageName) : UIImage(named: Constants.likeInactiveImageName)
+        let likeImage = indexPath.row % 2 == 0 ? UIImage(named: ButtonConstants.likeActiveImageName) : UIImage(named: ButtonConstants.likeInactiveImageName)
         
         cell.likeButton.setImage(likeImage, for: .normal)
     }
