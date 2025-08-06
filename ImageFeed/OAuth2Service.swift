@@ -33,7 +33,7 @@ final class OAuth2Service {
 
             do {
                 let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                print("✅ Token decoded: \(tokenResponse.accessToken)")
+                print("Token decoded: \(tokenResponse.accessToken)")
                 OAuth2TokenStorage().token = tokenResponse.accessToken
                 DispatchQueue.main.async {
                     completion(.success(tokenResponse.accessToken))

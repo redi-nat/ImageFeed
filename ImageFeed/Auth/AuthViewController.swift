@@ -12,22 +12,21 @@ final class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("AuthViewController loaded, delegate is \(String(describing: delegate))")
+     //   print("AuthViewController loaded, delegate is \(String(describing: delegate))")
         configureBackButton()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
-            print("✅ Matching segue ID found")
             
             guard let webVC = segue.destination as? WebViewViewController else {
                 assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
                 return
             }
-            print("✅ AuthViewController найден, назначаем delegate")
+       //     print("AuthViewController найден, назначаем delegate")
             webVC.delegate = self
         } else {
-            print("➡️ Unexpected segue ID")
+          //  print("➡️ Unexpected segue ID")
             super.prepare(for: segue, sender: sender)
         }
     }
@@ -38,36 +37,31 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "YP Black")
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("Delegate in viewWillAppear: \(String(describing: delegate))")
+      //  print("Delegate in viewWillAppear: \(String(describing: delegate))")
     }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        print("✅ Код авторизации получен: \(code)") 
+       // print("Код авторизации получен: \(code)")
 
-        vc.dismiss(animated: true)
-        
         self.fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
-            
-            
+
             switch result {
             case .success:
-                print("✅ Вызов делегата после успешного получения токена")
-                guard let delegate = self.delegate else {
-                    print("❌ Delegate is nil")
-                    return
+             //   print("Вызов делегата после успешного получения токена")
+                vc.dismiss(animated: true) {
+                    self.delegate?.didAuthenticate(self)
                 }
 
-                print("✅ Delegate exists, calling didAuthenticate")
-                delegate.didAuthenticate(self)
-                
             case .failure(let error):
-                print("❌ Ошибка: \(error)")
+            //    print("Ошибка: \(error)")
+                vc.dismiss(animated: true)
             }
         }
     }
