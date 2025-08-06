@@ -82,6 +82,17 @@ final class WebViewViewController: UIViewController {
     }
 }
 
+func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+    OAuth2Service.shared.fetchOAuthToken(code: code) { result in
+        switch result {
+        case .success(let token):
+            print("Token received: \(token)")
+        case .failure(let error):
+            print("Failed to fetch token: \(error)")
+        }
+    }
+}
+
     extension WebViewViewController: WKNavigationDelegate {
         func webView(
             _ webView: WKWebView,
