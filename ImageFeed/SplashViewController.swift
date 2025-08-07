@@ -60,18 +60,3 @@ extension SplashViewController: AuthViewControllerDelegate {
         switchToTabBarController()
     }
 }
-
-
-extension UIApplication {
-    var currentWindow: UIWindow? {
-        if #available(iOS 13, *) {
-            return self.connectedScenes
-                .filter { $0.activationState == .foregroundActive }
-                .compactMap { $0 as? UIWindowScene }
-                .first?.windows
-                .first { $0.isKeyWindow }
-        } else {
-            return self.keyWindow
-        }
-    }
-}

@@ -310,8 +310,21 @@
                     <view key="view" contentMode="scaleToFill" id="FD4-0y-F6l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="MCx-2s-cyu">
+                                <rect key="frame" x="151" y="368" width="73" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="73" id="BRX-dI-3xI"/>
+                                    <constraint firstAttribute="height" constant="76" id="x3L-i8-Wum"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="JeR-4X-L36"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="MCx-2s-cyu" firstAttribute="centerY" secondItem="FD4-0y-F6l" secondAttribute="centerY" id="102-fM-NvL"/>
+                            <constraint firstItem="MCx-2s-cyu" firstAttribute="centerX" secondItem="FD4-0y-F6l" secondAttribute="centerX" id="zkK-5O-1oV"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="y2C-Dc-Wue" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="nV0-Ji-UtM"/>
@@ -345,6 +358,7 @@
         <image name="0" width="1600" height="1059"/>
         <image name="Image" width="1600" height="1059"/>
         <image name="ShareButton" width="51" height="50"/>
+        <image name="Vector" width="73" height="76"/>
         <image name="auth_screen_logo" width="60" height="60"/>
         <image name="back_button" width="9" height="16"/>
         <image name="likeButtonOn" width="30" height="30"/>

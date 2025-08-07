@@ -70,7 +70,9 @@ extension ImagesListViewController {
         let currentDate = Date()
         cell.dateLabel.text = dateFormatter.string(from: currentDate)
         
-        let likeImage = indexPath.row % 2 == 0 ? UIImage(named: ButtonConstants.likeActiveImageName) : UIImage(named: ButtonConstants.likeInactiveImageName)
+        let likeImage = indexPath.row % 2 == 0
+                ? UIImage(named: ButtonConstants.likeActiveImageName)
+                : UIImage(named: ButtonConstants.likeInactiveImageName)
         
         cell.likeButton.setImage(likeImage, for: .normal)
     }
