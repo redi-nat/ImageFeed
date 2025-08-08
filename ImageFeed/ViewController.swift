@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Natalia Redinskaia on 09/07/2025.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
