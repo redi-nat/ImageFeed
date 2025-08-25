@@ -16,9 +16,9 @@ final class AuthViewController: UIViewController {
         configureBackButton()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+ //   override func viewWillAppear(_ animated: Bool) {
+   //     super.viewWillAppear(animated)
+    //}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -60,7 +60,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     self.delegate?.didAuthenticate(self)
                 case let .failure(error):
                     print("Ошибка при аутентификации: \(error.localizedDescription)")
-             //       self.showAuthErrorAlert()  // Показываем алерт при ошибке
+                    self.showAuthErrorAlert()  // Показываем алерт при ошибке
             }
         }
     }
@@ -69,6 +69,55 @@ extension AuthViewController: WebViewViewControllerDelegate {
         vc.dismiss(animated: true)
     }
 }
+
+        
+    /*    vc.dismiss(animated: true)
+                UIBlockingProgressHUD.show()
+
+                // 1. Получаем токен
+        OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+                    UIBlockingProgressHUD.dismiss()
+                    guard let self = self else { return }
+
+                    switch result {
+                    case .success(let token):
+                        // ✅ Пункт 3 — загрузка профиля и аватара
+                        ProfileService.shared.fetchProfile(token) { result in
+                            switch result {
+                            case .success(let profile):
+                                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in
+                                    // Автоматически сработают нотификации и обновят UI
+                                }
+                                // Уведомляем делегата, что вход завершён
+                                DispatchQueue.main.async {
+                                    self.delegate?.didAuthenticate(self)
+                                }
+
+                            case .failure(let error):
+                                print("Ошибка получения профиля: \(error)")
+                                DispatchQueue.main.async {
+                                    self.showAuthErrorAlert()
+                                }
+                            }
+                        }
+
+                    case .failure(let error):
+                        print("Ошибка получения токена: \(error)")
+                        DispatchQueue.main.async {
+                            if self.view.window != nil {
+                                self.showAuthErrorAlert()
+                            } else {
+                                print("⚠️ Не удалось показать алерт — view не в иерархии окна")
+                            }
+                        }
+                    }
+                }
+            }
+
+            func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+                vc.dismiss(animated: true)
+            }
+        }*/
 
 extension AuthViewController {
     private func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {

@@ -1,5 +1,13 @@
 import Foundation
 
+//extension Notification.Name {
+  //  static let ProfileDidChange = Notification.Name("ProfileServiceProfileDidChange")
+//}
+//extension Notification.Name {
+  //  static let ProfileDidChange = Notification.Name("ProfileDidChangeNotification")
+//}
+
+
 struct Profile {
     let username: String
     let name: String
@@ -23,6 +31,7 @@ struct ProfileResult: Codable {
 
 final class ProfileService {
     static let shared = ProfileService()
+  //  static let didChangeNotification = Notification.Name("ProfileServiceDidChange")
     private init() {}
 
     private var task: URLSessionTask?
@@ -45,12 +54,21 @@ final class ProfileService {
 
                 let profile = Profile(
                     username: result.username,
-                    name: [result.firstName, result.lastName].compactMap { $0 }.joined(separator: " "),
+                    name: "\(result.firstName) \(result.lastName)"
+                        .trimmingCharacters(in: .whitespaces), // Убираем лишние пробелы
                     loginName: "@\(result.username)",
                     bio: result.bio
                 )
                 
                 self?.profile = profile
+              //  NotificationCenter.default.post(name: .ProfileDidChange, object: nil)
+
+              //  NotificationCenter.default.post(
+                //    name: ProfileService.didChangeNotification,
+                  //  object: self)
+                
+             //   NotificationCenter.default.post(name: .ProfileDidChange, object: self)
+                
                 completion(.success(profile))
             case .failure(let error):
                 print("[fetchProfile]: Ошибка запроса: \(error.localizedDescription)")

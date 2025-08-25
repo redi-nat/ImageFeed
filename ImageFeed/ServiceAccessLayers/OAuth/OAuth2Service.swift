@@ -94,8 +94,11 @@ final class OAuth2Service {
     }
 
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: Constants.tokenURL) else {
-          //  print("Failed to create URLComponents from: \(Constants.tokenURL)")
+      //  guard var urlComponents = URLComponents(string: Constants.tokenURL) else {
+        guard
+            var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
+        else {
+            //  print("Failed to create URLComponents from: \(Constants.tokenURL)")
             assertionFailure("Failed to create URL")
             return nil
         }
@@ -108,15 +111,12 @@ final class OAuth2Service {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
 
-        guard let url = urlComponents.url else {
+        guard let authTokenUrl = urlComponents.url else {
             print("Failed to get URL from URLComponents: \(urlComponents)")
             return nil
         }
         
-        print("🔗 Токен-запрос URL: \(url.absoluteString)")
-        
-        
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: authTokenUrl)
         request.httpMethod = "POST"
         return request
     }

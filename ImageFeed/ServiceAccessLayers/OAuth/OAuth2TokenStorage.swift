@@ -1,5 +1,5 @@
 import Foundation
-import UIKit
+import SwiftKeychainWrapper
 
 struct OAuthTokenResponseBody: Codable {
     let accessToken: String
@@ -15,20 +15,23 @@ struct OAuthTokenResponseBody: Codable {
 final class OAuth2TokenStorage {
     static let shared = OAuth2TokenStorage()
     private init() {}
-    
-    private let dataStorage =  UserDefaults.standard
+
     private let tokenKey = "token"
 
     var token: String? {
         get {
-            dataStorage.string(forKey: tokenKey)
+            // Получаем токен из Keychain
+            return KeychainWrapper.standard.string(forKey: tokenKey)
         }
         set {
             if let token = newValue {
-                dataStorage.set(token, forKey: tokenKey)
+                // Сохраняем токен в Keychain
+                KeychainWrapper.standard.set(token, forKey: tokenKey)
             } else {
-                dataStorage.removeObject(forKey: tokenKey)
+                // Удаляем токен из Keychain
+                KeychainWrapper.standard.removeObject(forKey: tokenKey)
             }
         }
     }
 }
+
