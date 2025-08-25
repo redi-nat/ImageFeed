@@ -4,7 +4,7 @@ final class ProfileViewController: UIViewController {
    
     private var imageView: UIImageView!
     private var nameLabel: UILabel!
-    private var loginLabel: UILabel!
+    private var loginNameLabel: UILabel!
     private var descriptionLabel: UILabel!
     private var exitButton: UIButton!
 
@@ -16,8 +16,24 @@ final class ProfileViewController: UIViewController {
         setupNameLabel()
         setupLoginLabel()
         setupDescriptionLabel()
+        
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
     }
 
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name.isEmpty
+            ? "Имя не указано"
+            : profile.name
+        loginNameLabel.text = profile.loginName.isEmpty
+            ? "@неизвестный_пользователь"
+            : profile.loginName
+        descriptionLabel.text = (profile.bio?.isEmpty ?? true)
+            ? "Профиль не заполнен"
+            : profile.bio
+    }
+    
     private func setupImageView() {
         imageView = UIImageView(image: UIImage(named: "avatar"))
         imageView.contentMode = .scaleAspectFill
@@ -65,16 +81,16 @@ final class ProfileViewController: UIViewController {
     }
 
     private func setupLoginLabel() {
-        loginLabel = UILabel()
-        loginLabel.text = "@e_novikova"
-        loginLabel.textColor = UIColor(named: "YP Gray")
-        loginLabel.font = UIFont.systemFont(ofSize: 13)
-        loginLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loginLabel)
+        loginNameLabel = UILabel()
+        loginNameLabel.text = "@e_novikova"
+        loginNameLabel.textColor = UIColor(named: "YP Gray")
+        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
+        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginNameLabel)
 
         NSLayoutConstraint.activate([
-            loginLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
+            loginNameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
     }
 
@@ -88,7 +104,7 @@ final class ProfileViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: 8)
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8)
         ])
     }
 
@@ -97,7 +113,7 @@ final class ProfileViewController: UIViewController {
         imageView.image = UIImage(named: "UserImage")
    
         nameLabel.removeFromSuperview()
-        loginLabel.removeFromSuperview()
+        loginNameLabel.removeFromSuperview()
         descriptionLabel.removeFromSuperview()
     }
 }

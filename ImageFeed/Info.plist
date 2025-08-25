@@ -20,6 +20,13 @@
 				</dict>
 			</array>
 		</dict>
+		<key>NSAppTransportSecurity
+NSAppTransportSecurity
+NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
