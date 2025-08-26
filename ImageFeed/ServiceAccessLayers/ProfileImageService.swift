@@ -81,8 +81,8 @@ final class ProfileImageService {
         return request
     }
     
-    func resetAvatar() {
+  /*  func resetAvatar() {
         avatarURL = nil
-    }
+    }*/
 }
 

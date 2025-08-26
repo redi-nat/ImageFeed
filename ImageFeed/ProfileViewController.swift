@@ -194,7 +194,7 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    /*  @objc
+    @objc
      private func didTapButton() {
      avatarImageView.image = UIImage(named: "UserImage")
      
@@ -202,22 +202,22 @@ final class ProfileViewController: UIViewController {
      loginNameLabel.removeFromSuperview()
      descriptionLabel.removeFromSuperview()
      }
-     }*/
+     }
     
-    @objc
+ /*   @objc
     private func didTapButton() {
-        // Удаляем пользовательские данные
+        
         OAuth2TokenStorage.shared.token = nil
         ProfileService.shared.reset()
         ProfileImageService.shared.resetAvatar()
         
-        // Переход на экран авторизации
+        
         guard let window = UIApplication.shared.currentWindow else {
-            print("❌ Не удалось получить текущее окно")
+            print("Не удалось получить текущее окно")
             return
         }
         
-        let splashVC = SplashViewController() // или LoginViewController, смотря откуда начинается авторизация
+        let splashVC = SplashViewController()
         window.rootViewController = splashVC
-    }
-}
+    }*/
+
