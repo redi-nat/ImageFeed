@@ -13,95 +13,60 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "YP Black")
+        view.backgroundColor = UIColor(resource: .ypBlack)
+        
         setupImageView()
         setupExitButton()
         setupNameLabel()
         setupLoginLabel()
         setupDescriptionLabel()
         
-        /*     NotificationCenter.default.addObserver(
-         forName: ProfileService.didChangeNotification,
-         object: nil,
-         queue: .main
-         ) { [weak self] _ in
-         guard let self = self,
-         let profile = ProfileService.shared.profile else { return }
-         self.updateProfileDetails(profile: profile)
-         } */
-        
-        /*   NotificationCenter.default.addObserver(
-         forName: .ProfileDidChange,
-         object: nil,
-         queue: .main
-         ) { [weak self] _ in
-         guard let self = self else { return }
-         if let profile = ProfileService.shared.profile {
-         self.updateProfileDetails(profile: profile)
-         
-         // 👇 Запрашиваем аватар (а не просто updateAvatar)
-         ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in
-         self.updateAvatar()
-         }
-         }
-         } */
-        
-        
         if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
-        }
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
-    }
-    
+            updateProfileDetails(profile: profile) }
+        
+        profileImageServiceObserver = NotificationCenter.default .addObserver( forName: ProfileImageService.didChangeNotification, object: nil, queue: .main ) { [weak self] _ in guard let self = self else { return }
+            self.updateAvatar() }
+        updateAvatar() }
+
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let imageUrl = URL(string: profileImageURL)
-        else { return }
+        else {
+            print("URL аватарки отсутствует")
+            avatarImageView.image = UIImage(systemName: "UserImage")
+            return
+        }
         
         print("imageUrl: \(imageUrl)")
         
-        let placeholderImage = UIImage(systemName: "person.circle.fill")?
+        let placeholderImage = UIImage(systemName: "UserImage")?
             .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 70, weight: .regular, scale: .large))
         
-        let processor = RoundCornerImageProcessor(cornerRadius: 35) // Радиус для круга
+        let imageSize = CGSize(width: 70, height: 70)
+        
+        let processor = ResizingImageProcessor(referenceSize: imageSize, mode: .aspectFill)
+        |> RoundCornerImageProcessor(cornerRadius: 35)
+        
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(
             with: imageUrl,
             placeholder: placeholderImage,
             options: [
                 .processor(processor),
-                .scaleFactor(UIScreen.main.scale), // Учитываем масштаб экрана
-                .cacheOriginalImage, // Кэшируем оригинал
-                .forceRefresh // Игнорируем кэш, чтобы обновить
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage,
+                .forceRefresh
             ]) { result in
                 
                 switch result {
-                    // Успешная загрузка
+
                 case .success(let value):
-                    // Картинка
                     print(value.image)
-                    
-                    // Откуда картинка загружена:
-                    // - .none — из сети.
-                    // - .memory — из кэша оперативной памяти.
-                    // - .disk — из дискового кэша.
                     print(value.cacheType)
-                    
-                    // Информация об источнике.
                     print(value.source)
                     
-                    // В случае ошибки
                 case .failure(let error):
                     print(error)
                 }
@@ -122,7 +87,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupImageView() {
         avatarImageView = UIImageView()
-        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.contentMode = .scaleAspectFit
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = 35
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +107,7 @@ final class ProfileViewController: UIViewController {
             target: self,
             action: #selector(didTapButton)
         )
-        exitButton.tintColor = UIColor(named: "YP Red")
+        exitButton.tintColor = UIColor(resource: .ypRed)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)
         
@@ -168,8 +133,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupLoginLabel() {
         loginNameLabel = UILabel()
-        //  loginNameLabel.text = "@e_novikova"
-        loginNameLabel.textColor = UIColor(named: "YP Gray")
+        loginNameLabel.textColor = UIColor(resource: .ypGray)
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
@@ -182,7 +146,6 @@ final class ProfileViewController: UIViewController {
     
     private func setupDescriptionLabel() {
         descriptionLabel = UILabel()
-        //  descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .white
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -194,7 +157,7 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    @objc
+     @objc
      private func didTapButton() {
      avatarImageView.image = UIImage(named: "UserImage")
      
@@ -202,9 +165,9 @@ final class ProfileViewController: UIViewController {
      loginNameLabel.removeFromSuperview()
      descriptionLabel.removeFromSuperview()
      }
-     }
     
- /*   @objc
+    
+   /* @objc
     private func didTapButton() {
         
         OAuth2TokenStorage.shared.token = nil
@@ -220,4 +183,4 @@ final class ProfileViewController: UIViewController {
         let splashVC = SplashViewController()
         window.rootViewController = splashVC
     }*/
-
+}

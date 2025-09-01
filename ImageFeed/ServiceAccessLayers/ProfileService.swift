@@ -1,13 +1,5 @@
 import Foundation
 
-//extension Notification.Name {
-  //  static let ProfileDidChange = Notification.Name("ProfileServiceProfileDidChange")
-//}
-//extension Notification.Name {
-  //  static let ProfileDidChange = Notification.Name("ProfileDidChangeNotification")
-//}
-
-
 struct Profile {
     let username: String
     let name: String
@@ -20,18 +12,10 @@ struct ProfileResult: Codable {
     let firstName: String?
     let lastName: String?
     let bio: String?
-
-    enum CodingKeys: String, CodingKey {
-        case username
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case bio
-    }
 }
 
 final class ProfileService {
     static let shared = ProfileService()
-  //  static let didChangeNotification = Notification.Name("ProfileServiceDidChange")
     private init() {}
 
     private var task: URLSessionTask?
@@ -49,25 +33,17 @@ final class ProfileService {
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let result):
-              //  do {
-            //        let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
 
                 let profile = Profile(
                     username: result.username,
-                    name: "\(result.firstName) \(result.lastName)"
-                        .trimmingCharacters(in: .whitespaces), // Убираем лишние пробелы
+                    name: [result.firstName, result.lastName]
+                        .compactMap { $0 }
+                        .joined(separator: " "),
                     loginName: "@\(result.username)",
                     bio: result.bio
                 )
                 
                 self?.profile = profile
-              //  NotificationCenter.default.post(name: .ProfileDidChange, object: nil)
-
-              //  NotificationCenter.default.post(
-                //    name: ProfileService.didChangeNotification,
-                  //  object: self)
-                
-             //   NotificationCenter.default.post(name: .ProfileDidChange, object: self)
                 
                 completion(.success(profile))
             case .failure(let error):

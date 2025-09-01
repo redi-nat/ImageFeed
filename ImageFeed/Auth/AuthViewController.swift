@@ -14,11 +14,12 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
+        
+        /* Для проверки внешнего вида алерта
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.showAuthErrorAlert()
+            }*/
     }
-    
- //   override func viewWillAppear(_ animated: Bool) {
-   //     super.viewWillAppear(animated)
-    //}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -36,7 +37,7 @@ final class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationController?.navigationBar.tintColor = UIColor(named: "YP Black")
+        navigationController?.navigationBar.tintColor = UIColor(resource: .ypBlack)
     }
 }
 
@@ -70,55 +71,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
 }
 
-        
-    /*    vc.dismiss(animated: true)
-                UIBlockingProgressHUD.show()
-
-                // 1. Получаем токен
-        OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
-                    UIBlockingProgressHUD.dismiss()
-                    guard let self = self else { return }
-
-                    switch result {
-                    case .success(let token):
-                        // ✅ Пункт 3 — загрузка профиля и аватара
-                        ProfileService.shared.fetchProfile(token) { result in
-                            switch result {
-                            case .success(let profile):
-                                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in
-                                    // Автоматически сработают нотификации и обновят UI
-                                }
-                                // Уведомляем делегата, что вход завершён
-                                DispatchQueue.main.async {
-                                    self.delegate?.didAuthenticate(self)
-                                }
-
-                            case .failure(let error):
-                                print("Ошибка получения профиля: \(error)")
-                                DispatchQueue.main.async {
-                                    self.showAuthErrorAlert()
-                                }
-                            }
-                        }
-
-                    case .failure(let error):
-                        print("Ошибка получения токена: \(error)")
-                        DispatchQueue.main.async {
-                            if self.view.window != nil {
-                                self.showAuthErrorAlert()
-                            } else {
-                                print("⚠️ Не удалось показать алерт — view не в иерархии окна")
-                            }
-                        }
-                    }
-                }
-            }
-
-            func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-                vc.dismiss(animated: true)
-            }
-        }*/
-
 extension AuthViewController {
     private func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         oauth2Service.fetchOAuthToken(code: code) { result in
@@ -130,7 +82,7 @@ extension AuthViewController {
 extension AuthViewController {
     func showAuthErrorAlert() {
         let alertController = UIAlertController(
-            title: "Что-то пошло не так",
+            title: "Что-то пошло не так(",
             message: "Не удалось войти в систему",
             preferredStyle: .alert
         )

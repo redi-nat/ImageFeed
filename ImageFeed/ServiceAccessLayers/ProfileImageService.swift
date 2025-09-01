@@ -1,38 +1,25 @@
 import Foundation
 
+struct UserResult: Codable {
+    let profileImage: ProfileImage
+}
+
 struct ProfileImage: Codable {
     let small: String
     let medium: String
     let large: String
-
-    private enum CodingKeys: String, CodingKey {
-        case small
-        case medium
-        case large
-    }
 }
 
-struct UserResult: Codable {
-    let profileImage: ProfileImage
-
-    private enum CodingKeys: String, CodingKey {
-        case profileImage = "profile_image"
-    }
-}
 
 final class ProfileImageService {
-    // Синглтон
     static let shared = ProfileImageService()
     private init() {}
 
-    // Приватное свойство для хранения URL аватарки
     private(set) var avatarURL: String?
     private var task: URLSessionTask?
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
         
-
-    // Метод для получения аватарки по имени пользователя
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
 
@@ -81,7 +68,7 @@ final class ProfileImageService {
         return request
     }
     
-  /*  func resetAvatar() {
+   /*func resetAvatar() {
         avatarURL = nil
     }*/
 }

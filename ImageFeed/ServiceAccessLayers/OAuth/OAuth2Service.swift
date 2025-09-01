@@ -30,7 +30,6 @@ final class OAuth2Service {
         }
 
         task?.cancel()
-
         lastCode = code
 
         guard let request = makeOAuthTokenRequest(code: code) else {
@@ -43,49 +42,20 @@ final class OAuth2Service {
                 UIBlockingProgressHUD.dismiss()
                 guard let self = self else { return }
                 
+                defer {
+                    self.task = nil
+                    self.lastCode = nil
+                }
+                
                 switch result {
                 case .success(let body):
                     let authToken = body.accessToken
                     self.authToken = authToken // сохраняем в свойство
                     completion(.success(authToken)) // возвращаем наружу
                     
-                    self.task = nil
-                    self.lastCode = nil
-                    
                 case .failure(let error):
                     print("[fetchOAuthToken]: Ошибка запроса: \(error.localizedDescription)")
                     completion(.failure(error)) // ошибка
-                    
-                    self.task = nil
-                    self.lastCode = nil
-                    
-                    /*      guard let self = self else { return }
-                     
-                     if let error = error {
-                     print("Network error: \(error)")
-                     completion(.failure(error))
-                     return
-                     }
-                     
-                     guard
-                     let httpResponse = response as? HTTPURLResponse,
-                     (200..<300).contains(httpResponse.statusCode),
-                     let data = data
-                     else {
-                     print("Invalid response or no data")
-                     completion(.failure(OAuthError.invalidResponse))
-                     return
-                     }
-                     
-                     do {
-                     let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                     print("Token decoded: \(tokenResponse.accessToken)")
-                     self.authToken = tokenResponse.accessToken
-                     completion(.success(tokenResponse.accessToken))
-                     } catch {
-                     print("Decoding error: \(error)")
-                     completion(.failure(error))
-                     } */
                 }
             }
         }
@@ -94,9 +64,7 @@ final class OAuth2Service {
     }
 
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-      //  guard var urlComponents = URLComponents(string: Constants.tokenURL) else {
-        guard
-            var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
+        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
         else {
             //  print("Failed to create URLComponents from: \(Constants.tokenURL)")
             assertionFailure("Failed to create URL")
