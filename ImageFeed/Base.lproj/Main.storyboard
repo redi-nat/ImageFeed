@@ -48,6 +48,9 @@
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="likeButtonOn"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked" destination="0s3-Qg-szI" eventType="touchUpInside" id="EWF-A4-Icx"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 июня 2025" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKc-uk-8Ml" userLabel="Date Label">
                                                     <rect key="frame" x="24" y="189" width="86" height="16"/>
