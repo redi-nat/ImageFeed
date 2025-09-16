@@ -1,16 +1,7 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage? {
-        didSet {
-            guard isViewLoaded, let image else { return }
-            
-            imageView.image = image
-            imageView.frame = CGRect(origin: .zero, size: image.size)
-            scrollView.contentSize = image.size
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var imageURL: URL?
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
@@ -20,18 +11,52 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        guard let image else { return }
-        imageView.image = image
-        imageView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
+        loadImage()
+        
     }
+    
+    private func loadImage() {
+            guard let imageURL else { return }
+
+            UIBlockingProgressHUD.show()
+
+            URLSession.shared.dataTask(with: imageURL) { [weak self] data, _, error in
+                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                }
+
+                guard let self = self else { return }
+        
+        if let data = data, let image = UIImage(data: data) {
+            DispatchQueue.main.async {
+                self.imageView.image = image
+                self.imageView.frame.size = image.size
+                self.scrollView.contentSize = image.size
+                self.rescaleAndCenterImageInScrollView(image: image)
+            }
+        } else {
+            print("❌ Не удалось загрузить изображение: \(error?.localizedDescription ?? "unknown error")")
+        }
+    }.resume()
+}
+
+    private func showLoadError() {
+            let alert = UIAlertController(
+                title: "Ошибка",
+                message: "Не удалось загрузить изображение.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "ОК", style: .default))
+            present(alert, animated: true)
+        }
     
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func didTapShareButton(_ sender: UIButton) {
-        guard let image else { return }
+        guard let image = imageView.image else { return }
+        
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil

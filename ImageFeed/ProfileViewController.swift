@@ -27,7 +27,7 @@ final class ProfileViewController: UIViewController {
         profileImageServiceObserver = NotificationCenter.default .addObserver( forName: ProfileImageService.didChangeNotification, object: nil, queue: .main ) { [weak self] _ in guard let self = self else { return }
             self.updateAvatar() }
         updateAvatar() }
-
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -61,7 +61,7 @@ final class ProfileViewController: UIViewController {
             ]) { result in
                 
                 switch result {
-
+                    
                 case .success(let value):
                     print(value.image)
                     print(value.cacheType)
@@ -105,7 +105,7 @@ final class ProfileViewController: UIViewController {
         exitButton = UIButton.systemButton(
             with: UIImage(systemName: "ipad.and.arrow.forward")!,
             target: self,
-            action: #selector(didTapButton)
+            action: #selector(didTapExitButton)
         )
         exitButton.tintColor = UIColor(resource: .ypRed)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +119,6 @@ final class ProfileViewController: UIViewController {
     
     private func setupNameLabel() {
         nameLabel = UILabel()
-        // nameLabel.text = "Ekaterina Novikova"
         nameLabel.textColor = .white
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -157,30 +156,46 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-     @objc
-     private func didTapButton() {
-     avatarImageView.image = UIImage(named: "UserImage")
-     
-     nameLabel.removeFromSuperview()
-     loginNameLabel.removeFromSuperview()
-     descriptionLabel.removeFromSuperview()
-     }
-    
-    
-   /* @objc
-    private func didTapButton() {
-        
-        OAuth2TokenStorage.shared.token = nil
-        ProfileService.shared.reset()
-        ProfileImageService.shared.resetAvatar()
-        
-        
-        guard let window = UIApplication.shared.currentWindow else {
+    private func switchToInitialScreen() {
+        guard let window = UIApplication.shared.windows.first else {
             print("Не удалось получить текущее окно")
             return
         }
-        
+
         let splashVC = SplashViewController()
         window.rootViewController = splashVC
-    }*/
+        window.makeKeyAndVisible()
+    }
+    
+    private func clearProfileDetails() {
+        nameLabel.text = ""
+        loginNameLabel.text = ""
+        descriptionLabel.text = ""
+        avatarImageView.image = UIImage(systemName: "UserImage")
+    }
+
+    @objc
+    private func didTapExitButton() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            self?.performLogout()
+        })
+        alert.addAction(UIAlertAction(title: "Нет", style: .default))
+        present(alert, animated: true)
+    }
+
+    private func performLogout() {
+        ProfileLogoutService.shared.logout()
+        clearProfileDetails()
+    }
+    
+    deinit {
+            if let observer = profileImageServiceObserver {
+                NotificationCenter.default.removeObserver(observer)
+            }
+        }
 }

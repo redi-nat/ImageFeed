@@ -35,7 +35,6 @@ final class ImagesListViewController: UIViewController {
     }
         
     @objc private func handlePhotosDidChange(_ notification: Notification) {
-        //photos = imagesListService.photos
         updateTableViewAnimated()
     }
 
@@ -51,22 +50,11 @@ final class ImagesListViewController: UIViewController {
 
             let photo = photos[indexPath.row]
 
-            if let url = URL(string: photo.largeImageURL) {
-                URLSession.shared.dataTask(with: url) { data, _, _ in
-                    guard let data = data,
-                          let image = UIImage(data: data) else {
-                        return
-                    }
-
-                    DispatchQueue.main.async {
-                        viewController.image = image
-                    }
-                }.resume()
+            viewController.imageURL = URL(string: photo.largeImageURL)
+                } else {
+                    super.prepare(for: segue, sender: sender)
+                }
             }
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
@@ -82,6 +70,9 @@ final class ImagesListViewController: UIViewController {
         }
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
 }
 
@@ -89,7 +80,7 @@ extension ImagesListViewController: UITableViewDataSource, ImagesListCellDelegat
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        //let photo = photos[indexPath.row]
+
         var photo = photos[indexPath.row]
         let newIsLiked = !photo.isLiked
         

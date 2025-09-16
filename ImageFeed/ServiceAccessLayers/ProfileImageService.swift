@@ -49,7 +49,7 @@ final class ProfileImageService {
 
             case .failure(let error):
                 print("[fetchProfileImageURL]: Ошибка запроса: \(error.localizedDescription)")
-                completion(.failure(error)) // Прокидываем ошибку
+                completion(.failure(error))
             }
         }
 
@@ -68,8 +68,8 @@ final class ProfileImageService {
         return request
     }
     
-   /*func resetAvatar() {
-        avatarURL = nil
-    }*/
+    func clean() {
+            avatarURL = nil
+        }
 }
 
