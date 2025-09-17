@@ -68,10 +68,8 @@ final class ProfileService {
         return request
     }
     
-   /* func reset() {
+    func clean() {
             profile = nil
-            task?.cancel()
-            task = nil
-        }*/
+        }
 }
 

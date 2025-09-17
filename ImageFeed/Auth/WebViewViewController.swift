@@ -27,7 +27,6 @@ final class WebViewViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-       // loadAuthView()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -37,11 +36,6 @@ final class WebViewViewController: UIViewController {
              })
         updateProgress()
     }
-    
-    /*   override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
-    } */
     
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
