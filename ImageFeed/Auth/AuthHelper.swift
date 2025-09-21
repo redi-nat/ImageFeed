@@ -19,7 +19,10 @@ final class AuthHelper: AuthHelperProtocol {
     }
 
     func authURL() -> URL? {
-        guard var urlComponents = URLComponents(string: configuration.authURLString) else {
+        guard
+            var urlComponents = URLComponents(string: configuration.authURLString)
+        else {
+            assertionFailure("Invalid authorization URL string: \(configuration.authURLString)")
             return nil
         }
         
