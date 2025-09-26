@@ -1,41 +1,38 @@
 import UIKit
 
-final class ProfileViewController: UIViewController {
-    private let viewModel: ProfileViewModel
-    private let logoutUseCase: LogoutUseCase
-    private weak var navigator: ProfileNavigator?
+final class ProfileViewController: UIViewController, ProfileViewProtocol {
+    private var presenter: ProfilePresenterProtocol?
 
-    private var avatarImageView: UIImageView!
-    private var nameLabel: UILabel!
-    private var loginNameLabel: UILabel!
-    private var descriptionLabel: UILabel!
-    private var exitButton: UIButton!
+        private var avatarImageView: UIImageView!
+        private var nameLabel: UILabel!
+        private var loginNameLabel: UILabel!
+        private var descriptionLabel: UILabel!
+        private var exitButton: UIButton!
 
-    init(viewModel: ProfileViewModel, logoutUseCase: LogoutUseCase,navigator: ProfileNavigator?) {
-        self.viewModel = viewModel
-        self.logoutUseCase = logoutUseCase
-        self.navigator = navigator
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor(resource: .ypBlack)
-
-        setupUI()
-
-        viewModel.onAvatarURLChange = { [weak self] url in
-            guard let self = self else { return }
-            AvatarImageLoader.setImage(on: self.avatarImageView, url: url)
+        init(presenter: ProfilePresenterProtocol) {
+            self.presenter = presenter
+            super.init(nibName: nil, bundle: nil)
+            self.presenter?.view = self
         }
 
-        updateProfileDetails()
-        viewModel.updateAvatar()
-    }
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+        }
+
+        func configure(presenter: ProfilePresenterProtocol) {
+            self.presenter = presenter
+            self.presenter?.view = self
+        }
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            view.backgroundColor = UIColor(resource: .ypBlack)
+            setupUI()
+
+            assert(presenter != nil, "Presenter must be set before viewDidLoad")
+            
+            presenter?.viewDidLoad()
+        }
 
     private func setupUI() {
         setupImageView()
@@ -116,20 +113,36 @@ final class ProfileViewController: UIViewController {
         ])
     }
 
-    private func updateProfileDetails() {
-        nameLabel.text = viewModel.displayName
-        loginNameLabel.text = viewModel.displayLogin
-        descriptionLabel.text = viewModel.displayBio
-    }
-
     @objc private func didTapExitButton() {
         present(AlertFactory.logoutConfirmation { [weak self] in
-            self?.logout()
+            guard let presenter = self?.presenter else { return }
+            presenter.didTapLogout()
         }, animated: true)
     }
 
-    private func logout() {
-        logoutUseCase.logout()
-        navigator?.navigateToLoginScreen()
+    
+    func displayName(_ name: String) {
+            nameLabel.text = name
+        }
+
+        func displayLogin(_ login: String) {
+            loginNameLabel.text = login
+        }
+
+        func displayBio(_ bio: String) {
+            descriptionLabel.text = bio
+        }
+
+    func displayAvatar(url: URL?) {
+        AvatarImageLoader.setImage(on: avatarImageView, url: url)
     }
+
+    }
+
+#if DEBUG
+extension ProfileViewController {
+    var testable_nameLabel: UILabel? { nameLabel }
+    var testable_loginNameLabel: UILabel? { loginNameLabel }
+    var testable_descriptionLabel: UILabel? { descriptionLabel }
 }
+#endif

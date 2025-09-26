@@ -45,20 +45,6 @@
 			);
 			target = DE59E5B72E1EF625000CB879 /* ImageFeed */;
 		};
-		DEFC2E5A2E80917C00AB2E2B /* Exceptions for "ImageFeedTests" folder in "ImageFeed" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				WebViewPresenterSpy.swift,
-			);
-			target = DE59E5B72E1EF625000CB879 /* ImageFeed */;
-		};
-		DEFC2E5B2E80917C00AB2E2B /* Exceptions for "ImageFeedTests" folder in "ImageFeedTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				WebViewPresenterSpy.swift,
-			);
-			target = DE59E5D02E1EF627000CB879 /* ImageFeedTests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -72,10 +58,6 @@
 		};
 		DE59E5D42E1EF627000CB879 /* ImageFeedTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DEFC2E5A2E80917C00AB2E2B /* Exceptions for "ImageFeedTests" folder in "ImageFeed" target */,
-				DEFC2E5B2E80917C00AB2E2B /* Exceptions for "ImageFeedTests" folder in "ImageFeedTests" target */,
-			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
 		};
