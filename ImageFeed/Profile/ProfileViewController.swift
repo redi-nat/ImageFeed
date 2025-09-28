@@ -67,6 +67,8 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         exitButton.tintColor = UIColor(resource: .ypRed)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)
+        
+        exitButton.accessibilityIdentifier = "logout_button"
 
         NSLayoutConstraint.activate([
             exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
@@ -80,6 +82,8 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
+        
+        nameLabel.accessibilityIdentifier = "profile_name"
 
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
@@ -93,6 +97,8 @@ final class ProfileViewController: UIViewController, ProfileViewProtocol {
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
+        
+        loginNameLabel.accessibilityIdentifier = "profile_login"
 
         NSLayoutConstraint.activate([
             loginNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),

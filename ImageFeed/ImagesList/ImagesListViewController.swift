@@ -3,7 +3,7 @@ import Kingfisher
 
 final class ImagesListViewController: UIViewController, ImagesListViewProtocol {
 
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
 
     private var presenter: ImagesListPresenterProtocol!
 
@@ -23,7 +23,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewProtocol {
         presenter.viewDidLoad()
     }
 
-    func inject(presenter: ImagesListPresenter) {
+    func inject(presenter: ImagesListPresenterProtocol) {
         self.presenter = presenter
     }
 
