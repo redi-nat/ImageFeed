@@ -36,7 +36,7 @@ private struct PhotoResult: Decodable {
     }
 }
 
-final class ImagesListService {
+final class ImagesListService: ImagesListServiceProtocol {
     
     private let urlSession = URLSession.shared
     private let baseURL = URL(string: "https://api.unsplash.com")!
@@ -136,7 +136,7 @@ final class ImagesListService {
                     task.resume()
                 }
     
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let token = tokenStorage.token else {
             let error = NetworkError.invalidRequest
                         print("[changeLike - ImagesListService]: token missing - photoId: \(photoId), isLike: \(isLike)")

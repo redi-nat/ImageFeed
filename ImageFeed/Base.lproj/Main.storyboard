@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="y2C-Dc-Wue">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -42,6 +42,7 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w8c-rs-rnh" userLabel="Like Button">
                                                     <rect key="frame" x="315" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="like button"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="Gnd-i8-dam"/>
                                                         <constraint firstAttribute="height" constant="44" id="aAw-44-cbf"/>
@@ -128,6 +129,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHt-7c-Fx7" userLabel="Back Button">
                                 <rect key="frame" x="8" y="58" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nav back button white"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="E8t-dY-7Hn"/>
                                     <constraint firstAttribute="height" constant="48" id="Xio-Kd-4hE"/>
@@ -192,6 +194,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xYo-KT-B1Y">
                                 <rect key="frame" x="16" y="606" width="343" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Kj9-wg-FL7"/>
                                     <constraint firstAttribute="width" constant="343" id="tnk-Mk-qXL"/>
@@ -228,7 +231,7 @@
         <!--Web View View Controller-->
         <scene sceneID="AeK-CL-6rR">
             <objects>
-                <viewController id="7HQ-fg-ymt" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="7HQ-fg-ymt" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4kA-aT-M0H">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -248,6 +251,9 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XKJ-5Y-M9s"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="UnsplashWebView">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="XKJ-5Y-M9s" firstAttribute="trailing" secondItem="9Sd-SV-i1D" secondAttribute="trailing" id="BWR-g2-uEd"/>
                             <constraint firstAttribute="bottom" secondItem="Jk2-vs-qay" secondAttribute="bottom" id="Lfg-YM-XAm"/>
